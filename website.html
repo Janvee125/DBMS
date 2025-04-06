@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background: #5991da;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #43abc0;
+            color: rgb(97, 191, 246);
+            padding: 20px;
+            font-size: 24px;
+        }
+
+        .search-box {
+            background: rgb(84, 205, 226);
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(240, 96, 199, 0.1);
+            width: 50%;
+            margin: 20px auto;
+            border-radius: 10px;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            width: 80%;
+            max-width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #results {
+            padding: 20px;
+        }
+
+        .flight-card {
+            background: rgb(88, 206, 226);
+            padding: 15px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            margin: 10px auto;
+            width: 50%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Flight Booking System</h1>
+    </header>
+
+    <section class="search-box">
+        <h2>Find Your Flight</h2>
+        <input type="text" id="origin" placeholder="From">
+        <input type="text" id="destination" placeholder="To">
+        <input type="date" id="date">
+        <button onclick="searchFlights()">Search Flights</button>
+    </section>
+
+    <section id="results">
+        <h2>Available Flights</h2>
+        <div id="flight-list"></div>
+    </section>
+
+    <script>
+        function searchFlights() {
+            document.getElementById('flight-list').innerHTML = '<p>Searching for flights...</p>';
+
+            setTimeout(() => {
+                document.getElementById('flight-list').innerHTML = `
+                    <div class="flight-card">
+                        <p><strong>Flight:</strong> AI-202</p>
+                        <p><strong>From:</strong> New York</p>
+                        <p><strong>To:</strong> London</p>
+                        <p><strong>Departure:</strong> 10:00 AM</p>
+                        <button>Book Now</button>
+                    </div>
+                `;
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            text-align: center;
+            margin: 20px;
+        }
+        .container {
+            width: 50%;
+            margin: auto;
+            background: rgb(89, 164, 238);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            width: 80%;
+        }
+        .flight {
+            background: #ddd;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Search for Flights</h2>
+        <input type="text" id="origin" placeholder="Enter Origin">
+        <input type="text" id="destination" placeholder="Enter Destination">
+        <input type="date" id="date">
+        <button onclick="searchFlights()">Search</button>
+        
+        <h2>Available Flights</h2>
+        <div id="flights"></div>
+    </div>
+
+    <script>
+        function searchFlights() {
+            const origin = document.getElementById('origin').value;
+            const destination = document.getElementById('destination').value;
+            const date = document.getElementById('date').value;
+            
+            fetch(`http://localhost:5000/flights?origin=${origin}&destination=${destination}&date=${date}`)
+                .then(response => response.json())
+                .then(data => {
+                    const flightsDiv = document.getElementById('flights');
+                    flightsDiv.innerHTML = '';
+                    data.forEach(flight => {
+                        flightsDiv.innerHTML += `
+                            <div class="flight">
+                                <p><strong>${flight.airline}</strong> - ${flight.flight_number}</p>
+                                <p>${flight.origin} to ${flight.destination}</p>
+                                <p>Departure: ${flight.departure_time}</p>
+                                <p>Price: $${flight.price}</p>
+                                <button onclick="bookFlight(${flight.id})">Book Now</button>
+                            </div>
+                        `;
+                    });
+                });
+        }
+
+        function bookFlight(flightId) {
+            fetch('http://localhost:5000/book', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: 1, flight_id: flightId })
+            })
+            .then(response => response.text())
+            .then(data => alert(data));
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Flight Booking System</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#login">Login</a></li>
+                <li><a href="#search">Search Flights</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="page">
+        <h2>Welcome to the Flight Booking System</h2>
+        <p>Book your flights easily and securely.</p>
+    </section>
+
+    <section id="login" class="page">
+        <h2>Login</h2>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="loginUser()">Login</button>
+    </section>
+
+    <section id="search" class="page">
+        <h2>Find Your Flight</h2>
+        <input type="text" id="origin" placeholder="From">
+        <input type="text" id="destination" placeholder="To">
+        <input type="date" id="date">
+        <button onclick="searchFlights()">Search Flights</button>
+    </section>
+
+    <section id="results">
+        <h2>Available Flights</h2>
+        <div id="flight-list"></div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
